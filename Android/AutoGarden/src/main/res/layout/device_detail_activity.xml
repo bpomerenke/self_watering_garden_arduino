@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/device_detail_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        tools:text="1456 Some St.\nSome Town, IL 62269" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Watering:" />
+
+            <TextView
+                android:id="@+id/device_detail_last_watering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Today 3 pm" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Update:" />
+
+            <TextView
+                android:id="@+id/device_detail_last_data_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Today 3 pm" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature:" />
+
+            <TextView
+                android:id="@+id/device_detail_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="78 F" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moisture:" />
+
+            <TextView
+                android:id="@+id/device_detail_moisture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="300" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

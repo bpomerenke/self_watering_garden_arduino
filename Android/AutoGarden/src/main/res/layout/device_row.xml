@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/default_margin"
+    android:layout_marginBottom="@dimen/default_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/device_row_name"
+                style="@style/row_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="My Garden 1" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Watering:" />
+
+            <TextView
+                android:id="@+id/device_row_last_watering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Today 3 pm" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Update:" />
+
+            <TextView
+                android:id="@+id/device_row_last_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Today 8 pm" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

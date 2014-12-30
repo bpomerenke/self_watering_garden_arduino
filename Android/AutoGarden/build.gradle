@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "org.autogarden"
+        minSdkVersion 7
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "WEB_SERVICE_BASE_URL", "\"TBD\""
+        }
+        mockservices {
+            buildConfigField "String", "WEB_SERVICE_BASE_URL", "\"http://localhost:1468/\""
+        }
+        release {
+            buildConfigField "String", "WEB_SERVICE_BASE_URL", "\"TBD\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testBuildType "mockservices"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.squareup.retrofit:retrofit:1.7.1'
+    compile "com.squareup.okhttp:okhttp-urlconnection:1.6.0"
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    mockservicesCompile("com.squareup.okhttp:mockwebserver:1.6.0") {
+        exclude group: "org.bouncycastle"
+    }
+}

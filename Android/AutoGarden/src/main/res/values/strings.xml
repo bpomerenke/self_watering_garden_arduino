@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AutoGarden</string>
+    <string name="auto_garden">Auto Garden</string>
+    <string name="device_Detail">Device Detail</string>
+
+</resources>
