@@ -1,0 +1,5 @@
+package org.autogarden.login;
+
+public interface LoginFragmentListener {
+    void loginSuccessful();
+}

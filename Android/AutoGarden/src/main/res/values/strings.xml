@@ -4,5 +4,10 @@
     <string name="app_name">AutoGarden</string>
     <string name="auto_garden">Auto Garden</string>
     <string name="device_Detail">Device Detail</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="please_login">Please Login with your AutoGarden account</string>
+    <string name="login">Login</string>
 
 </resources>

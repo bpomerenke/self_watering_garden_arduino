@@ -36,6 +36,7 @@ dependencies {
     compile "com.squareup.okhttp:okhttp-urlconnection:1.6.0"
     compile 'com.squareup.dagger:dagger:1.2.2'
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile 'com.mcxiaoke.volley:library:1.0.6'
 
     mockservicesCompile("com.squareup.okhttp:mockwebserver:1.6.0") {
         exclude group: "org.bouncycastle"
