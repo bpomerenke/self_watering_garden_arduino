@@ -153,6 +153,8 @@ int readData()
 
 String getStatus()
 {
+  wifiInit();
+  makeRequest();
   lastResponse = "";
   while(readData() == 0)
   {
@@ -162,8 +164,6 @@ String getStatus()
 }
 
 void loop() {
-  wifiInit();
-  makeRequest();
   Serial.print(getStatus());
   
   Serial.print("Delaying 5...");
