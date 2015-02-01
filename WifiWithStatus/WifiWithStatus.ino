@@ -62,6 +62,8 @@ char server[] = "www.bpomerenke.com";        // Remote host site
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 
+String lastResponse="";
+
 void setup() {
   
   ConnectionInfo connection_info;
@@ -172,7 +174,7 @@ int readData()
   // If there are incoming bytes, print them
   if ( client.available() ) {
     char c = client.read();
-    Serial.print(c);
+    lastResponse += c;
   }
   
   // If the server has disconnected, stop the client and wifi
@@ -201,6 +203,9 @@ int readData()
 void loop() {
   if(readData() == 1)
   {
+     Serial.println("response:");
+     Serial.println(lastResponse);
+     lastResponse = "";
      Serial.println("Delaying 5...");
      delay(1000);
      Serial.println("4..");
