@@ -174,6 +174,7 @@ void loop() {
   String statusVal = getStatus();
   
   Serial.println(statusVal);
+  Serial.println(postSensorData());
   if(statusVal.endsWith("water\n"))
   {
     Serial.println("");
@@ -183,7 +184,7 @@ void loop() {
   {
      Serial.print("-"); 
   }
-  Serial.print(postSensorData());
+  
   
   Serial.print("Delaying 5...");
   delay(1000);
