@@ -118,8 +118,8 @@ void setup() {
   Serial.println();
 }
 
-void loop() {
-  
+void readData()
+{
   // If there are incoming bytes, print them
   if ( client.available() ) {
     char c = client.read();
@@ -146,4 +146,7 @@ void loop() {
       delay(1000);
     }
   }
+}
+void loop() {
+  readData();
 }
