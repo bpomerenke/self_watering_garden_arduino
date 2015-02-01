@@ -170,6 +170,27 @@ String postSensorData()
   return getResponse();
 }
 
+void timedDelay(int sec, boolean showCount)
+{
+   if(showCount)
+   {
+     String message = "Delaying ";
+     message+=sec;
+     message+=" sec...";
+      Serial.print(message); 
+   }
+   for(int i = sec; i>=0; i--)
+   {
+     delay(1000);
+     if(showCount)
+     {
+       String message = "..";
+       message += i;
+       Serial.print(message);
+     }
+   }
+   Serial.println("");
+}
 void loop() {
   String statusVal = getStatus();
   
@@ -185,18 +206,7 @@ void loop() {
      Serial.print("-"); 
   }
   
-  
-  Serial.print("Delaying 5...");
-  delay(1000);
-  Serial.print("4..");
-  delay(1000);
-  Serial.print("3..");
-  delay(1000);
-  Serial.print("2..");
-  delay(1000);
-  Serial.print("1..");
-  delay(1000);
-  Serial.println("0"); 
+  timedDelay(15, true);
   
 }
 
