@@ -1,6 +1,5 @@
 /****************************************************************
-WebClient.ino
-CC3000 WebClient Test
+Mostly copied / modified from WebClient.ino
 Shawn Hymel @ SparkFun Electronics
 March 1, 2014
 https://github.com/sparkfun/SFE_CC3000_Library
@@ -24,19 +23,6 @@ Hardware Connections:
  11         MOSI            SPI MOSI
  12         MISO            SPI MISO
  13         SCK             SPI Clock
-
-Resources:
-Include SPI.h, SFE_CC3000.h, and SFE_CC3000_Client.h
-
-Development environment specifics:
-Written in Arduino 1.0.5
-Tested with Arduino UNO R3
-
-This code is beerware; if you see me (or any other SparkFun 
-employee) at the local, and you've found our code helpful, please
-buy us a round!
-
-Distributed as-is; no warranty is given.
 ****************************************************************/
 
 #include <SPI.h>
@@ -199,24 +185,31 @@ int readData()
      return 0; 
   }
 }
-void loop() {
-  if(readData() == 1)
+
+String getStatus()
+{
+  lastResponse = "";
+  while(readData() == 0)
   {
-     Serial.println("response:");
-     Serial.println(lastResponse);
-     lastResponse = "";
-     Serial.print("Delaying 5...");
-     delay(1000);
-     Serial.print("4..");
-     delay(1000);
-     Serial.print("3..");
-     delay(1000);
-     Serial.print("2..");
-     delay(1000);
-     Serial.print("1..");
-     delay(1000);
-     Serial.println("0"); 
-     wifiInit();
-     makeRequest();
+     //building up lastResponse
   }
+  return lastResponse;
+}
+
+void loop() {
+  Serial.print(getStatus());
+  Serial.print("Delaying 5...");
+  delay(1000);
+  Serial.print("4..");
+  delay(1000);
+  Serial.print("3..");
+  delay(1000);
+  Serial.print("2..");
+  delay(1000);
+  Serial.print("1..");
+  delay(1000);
+  Serial.println("0"); 
+  wifiInit();
+  makeRequest();
+ 
 }
