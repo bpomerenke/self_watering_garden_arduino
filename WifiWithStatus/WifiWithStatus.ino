@@ -117,8 +117,63 @@ void setup() {
   client.println();
   Serial.println();
 }
-
-void readData()
+void makeRequest()
+{
+  
+  ConnectionInfo connection_info;
+  int i;
+  
+  // Initialize Serial port
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println("---------------------------");
+  Serial.println("SparkFun CC3000 - WebClient");
+  Serial.println("---------------------------");
+  
+  // Initialize CC3000 (configure SPI communications)
+  if ( wifi.init() ) {
+    Serial.println("CC3000 initialization complete");
+  } else {
+    Serial.println("Something went wrong during CC3000 init!");
+  }
+  
+  // Connect using DHCP
+  Serial.print("Connecting to SSID: ");
+  Serial.println(ap_ssid);
+  if(!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
+    Serial.println("Error: Could not connect to AP");
+  }
+  
+  // Gather connection details and print IP address
+  if ( !wifi.getConnectionInfo(connection_info) ) {
+    Serial.println("Error: Could not obtain connection details");
+  } else {
+    Serial.print("IP Address: ");
+    for (i = 0; i < IP_ADDR_LEN; i++) {
+      Serial.print(connection_info.ip_address[i]);
+      if ( i < IP_ADDR_LEN - 1 ) {
+        Serial.print(".");
+      }
+    }
+    Serial.println();
+  }
+  
+  // Make a TCP connection to remote host
+  Serial.print("Performing HTTP GET of: ");
+  Serial.println(server);
+  if ( !client.connect(server, 80) ) {
+    Serial.println("Error: Could not make a TCP connection");
+  }
+  
+  // Make a HTTP GET request
+  client.println("GET /status.php HTTP/1.1");
+  client.print("Host: ");
+  client.println(server);
+  client.println("Connection: close");
+  client.println();
+  Serial.println();
+}
+int readData()
 {
   // If there are incoming bytes, print them
   if ( client.available() ) {
@@ -142,11 +197,27 @@ void readData()
     
     // Do nothing
     Serial.println("Finished WebClient test");
-    while(true){
-      delay(1000);
-    }
+    return 1;
+  }
+  else
+  {
+     return 0; 
   }
 }
 void loop() {
-  readData();
+  if(readData() == 1)
+  {
+     Serial.println("Delaying 5...");
+     delay(1000);
+     Serial.println("4..");
+     delay(1000);
+     Serial.println("3..");
+     delay(1000);
+     Serial.println("2..");
+     delay(1000);
+     Serial.println("1..");
+     delay(1000);
+     Serial.println("0"); 
+     makeRequest();
+  }
 }
