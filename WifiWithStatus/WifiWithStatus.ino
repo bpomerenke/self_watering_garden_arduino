@@ -48,8 +48,6 @@ char server[] = "www.bpomerenke.com";        // Remote host site
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 
-String lastResponse="";
-
 void setup() {
   
   ConnectionInfo connection_info;
@@ -119,48 +117,46 @@ void makeRequest()
   client.println();
   Serial.println(); 
 }
-int readData()
-{
-  // If there are incoming bytes, print them
-  if ( client.available() ) {
-    char c = client.read();
-    lastResponse += c;
-  }
-  
-  // If the server has disconnected, stop the client and wifi
-  if ( !client.connected() ) {
-    Serial.println();
-    
-    // Close socket
-    if ( !client.close() ) {
-      Serial.println("Error: Could not close socket");
-    }
-    
-    // Disconnect WiFi
-    if ( !wifi.disconnect() ) {
-      Serial.println("Error: Could not disconnect from network");
-    }
-    
-    // Do nothing
-    //Serial.println("Finished WebClient test");
-    return 1;
-  }
-  else
-  {
-     return 0; 
-  }
-}
 
 String getStatus()
 {
+  boolean keepReading = true;
+  String result = "";
+  
   wifiInit();
   makeRequest();
-  lastResponse = "";
-  while(readData() == 0)
+  while(keepReading)
   {
-     //building up lastResponse
+    // If there are incoming bytes, print them
+    if ( client.available() ) {
+      char c = client.read();
+      result += c;
+    }
+    
+    // If the server has disconnected, stop the client and wifi
+    if ( !client.connected() ) {
+      Serial.println();
+      
+      // Close socket
+      if ( !client.close() ) {
+        Serial.println("Error: Could not close socket");
+      }
+      
+      // Disconnect WiFi
+      if ( !wifi.disconnect() ) {
+        Serial.println("Error: Could not disconnect from network");
+      }
+      
+      // Do nothing
+      //Serial.println("Finished WebClient test");
+      keepReading = false;
+    }
+    else
+    {
+       keepReading = true; 
+    }
   }
-  return lastResponse;
+  return result;
 }
 
 void loop() {
