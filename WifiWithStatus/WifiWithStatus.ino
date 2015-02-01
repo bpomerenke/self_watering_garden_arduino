@@ -76,7 +76,7 @@ void wifiInit()
     Serial.println("Something went wrong during CC3000 init!");
   }
 }
-void makeRequest()
+void makeRequest(String url)
 {
   ConnectionInfo connection_info;
   int i;
@@ -110,7 +110,7 @@ void makeRequest()
   }
   
   // Make a HTTP GET request
-  client.println("GET /status.php HTTP/1.1");
+  client.println("GET "+url+" HTTP/1.1");
   client.print("Host: ");
   client.println(server);
   client.println("Connection: close");
@@ -160,12 +160,19 @@ String getResponse()
 String getStatus()
 {  
   wifiInit();
-  makeRequest();
+  makeRequest("/status.php");
+  return getResponse();
+}
+String postSensorData()
+{  
+  wifiInit();
+  makeRequest("/garden.php?temp=4&moisture=20");
   return getResponse();
 }
 
 void loop() {
   Serial.print(getStatus());
+  Serial.print(postSensorData());
   
   Serial.print("Delaying 5...");
   delay(1000);
