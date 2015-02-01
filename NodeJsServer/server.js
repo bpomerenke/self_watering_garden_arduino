@@ -23,6 +23,18 @@ app.get('/api/v1/:collectionName', function(req, res, next) {
   })
 })
 
+app.post('/api/v1/user/authenticate', function(req, res, next) {
+  userCollection = db.collection('user')
+  userCollection.findOne({username: req.body.username}, function(e, result){
+    if (e) return next(e)
+	if(result) {
+		res.send({ token :'TODO' })
+	} else {
+	   res.status(401).send({ error : 'Invalid Login'} )
+	}
+  })
+})
+
 app.post('/api/v1/:collectionName', function(req, res, next) {
   req.collection.insert(req.body, {}, function(e, results){
     if (e) return next(e)

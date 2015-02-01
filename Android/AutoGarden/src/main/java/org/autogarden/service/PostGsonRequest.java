@@ -1,6 +1,5 @@
 package org.autogarden.service;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 
 public class PostGsonRequest<T> extends AbstractGsonRequest<T> {
@@ -12,7 +11,7 @@ public class PostGsonRequest<T> extends AbstractGsonRequest<T> {
     }
 
     @Override
-    public byte[] getBody() throws AuthFailureError {
+    public byte[] getBody() {
         return gson.toJson(requestObj).getBytes();
     }
 }

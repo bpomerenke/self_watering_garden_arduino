@@ -2,6 +2,7 @@ package org.autogarden.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +10,7 @@ import android.view.MenuItem;
 import org.autogarden.DeviceListActivity;
 import org.autogarden.R;
 
-public class LoginActivity extends ActionBarActivity implements LoginFragmentListener {
+public class LoginActivity extends ActionBarActivity implements LoginFragmentListener, NewUserFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +48,19 @@ public class LoginActivity extends ActionBarActivity implements LoginFragmentLis
     @Override
     public void loginSuccessful() {
         startActivity(new Intent(this, DeviceListActivity.class));
+    }
+
+    @Override
+    public void showNewUserFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction = fragmentTransaction.replace(R.id.container, new NewUserFragment());
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void newUserCreated() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction = fragmentTransaction.replace(R.id.container, new LoginFragment());
+        fragmentTransaction.commit();
     }
 }
