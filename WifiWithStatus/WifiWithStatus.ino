@@ -73,19 +73,18 @@ void setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println("---------------------------");
-  Serial.println("SparkFun CC3000 - WebClient");
+  Serial.println("Self Watering Garden");
   Serial.println("---------------------------");
   
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
-    Serial.println("CC3000 initialization complete");
+    Serial.print(".");
   } else {
     Serial.println("Something went wrong during CC3000 init!");
   }
   
   // Connect using DHCP
-  Serial.print("Connecting to SSID: ");
-  Serial.println(ap_ssid);
+  Serial.print(".");
   if(!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
     Serial.println("Error: Could not connect to AP");
   }
@@ -94,19 +93,19 @@ void setup() {
   if ( !wifi.getConnectionInfo(connection_info) ) {
     Serial.println("Error: Could not obtain connection details");
   } else {
-    Serial.print("IP Address: ");
+    Serial.print(".");
     for (i = 0; i < IP_ADDR_LEN; i++) {
-      Serial.print(connection_info.ip_address[i]);
+      //Serial.print(connection_info.ip_address[i]);
       if ( i < IP_ADDR_LEN - 1 ) {
-        Serial.print(".");
+        //Serial.print(".");
       }
     }
-    Serial.println();
+    //Serial.println();
   }
   
   // Make a TCP connection to remote host
-  Serial.print("Performing HTTP GET of: ");
-  Serial.println(server);
+  Serial.print(".");
+  //Serial.println(server);
   if ( !client.connect(server, 80) ) {
     Serial.println("Error: Could not make a TCP connection");
   }
@@ -123,7 +122,7 @@ void wifiInit()
 { 
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
-    Serial.println("CC3000 initialization complete");
+    Serial.print(".");
   } else {
     Serial.println("Something went wrong during CC3000 init!");
   }
@@ -134,8 +133,8 @@ void makeRequest()
   int i;
 
   // Connect using DHCP
-  Serial.print("Connecting to SSID: ");
-  Serial.println(ap_ssid);
+  Serial.print(".");
+  //Serial.println(ap_ssid);
   if(!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
     Serial.println("Error: Could not connect to AP");
   }
@@ -144,19 +143,19 @@ void makeRequest()
   if ( !wifi.getConnectionInfo(connection_info) ) {
     Serial.println("Error: Could not obtain connection details");
   } else {
-    Serial.print("IP Address: ");
+    Serial.print(".");
     for (i = 0; i < IP_ADDR_LEN; i++) {
-      Serial.print(connection_info.ip_address[i]);
+      //Serial.print(connection_info.ip_address[i]);
       if ( i < IP_ADDR_LEN - 1 ) {
-        Serial.print(".");
+        //Serial.print(".");
       }
     }
-    Serial.println();
+    //Serial.println();
   }
   
   // Make a TCP connection to remote host
-  Serial.print("Performing HTTP GET of: ");
-  Serial.println(server);
+  Serial.print(".");
+  //Serial.println(server);
   if ( !client.connect(server, 80) ) {
     Serial.println("Error: Could not make a TCP connection");
   }
@@ -192,7 +191,7 @@ int readData()
     }
     
     // Do nothing
-    Serial.println("Finished WebClient test");
+    //Serial.println("Finished WebClient test");
     return 1;
   }
   else
@@ -206,15 +205,15 @@ void loop() {
      Serial.println("response:");
      Serial.println(lastResponse);
      lastResponse = "";
-     Serial.println("Delaying 5...");
+     Serial.print("Delaying 5...");
      delay(1000);
-     Serial.println("4..");
+     Serial.print("4..");
      delay(1000);
-     Serial.println("3..");
+     Serial.print("3..");
      delay(1000);
-     Serial.println("2..");
+     Serial.print("2..");
      delay(1000);
-     Serial.println("1..");
+     Serial.print("1..");
      delay(1000);
      Serial.println("0"); 
      wifiInit();
