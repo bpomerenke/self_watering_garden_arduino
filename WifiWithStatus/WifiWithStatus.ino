@@ -68,41 +68,6 @@ void setup() {
   } else {
     Serial.println("Something went wrong during CC3000 init!");
   }
-  
-  // Connect using DHCP
-  Serial.print(".");
-  if(!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
-    Serial.println("Error: Could not connect to AP");
-  }
-  
-  // Gather connection details and print IP address
-  if ( !wifi.getConnectionInfo(connection_info) ) {
-    Serial.println("Error: Could not obtain connection details");
-  } else {
-    Serial.print(".");
-    for (i = 0; i < IP_ADDR_LEN; i++) {
-      //Serial.print(connection_info.ip_address[i]);
-      if ( i < IP_ADDR_LEN - 1 ) {
-        //Serial.print(".");
-      }
-    }
-    //Serial.println();
-  }
-  
-  // Make a TCP connection to remote host
-  Serial.print(".");
-  //Serial.println(server);
-  if ( !client.connect(server, 80) ) {
-    Serial.println("Error: Could not make a TCP connection");
-  }
-  
-  // Make a HTTP GET request
-  client.println("GET /status.php HTTP/1.1");
-  client.print("Host: ");
-  client.println(server);
-  client.println("Connection: close");
-  client.println();
-  Serial.println();
 }
 void wifiInit()
 { 
@@ -197,7 +162,10 @@ String getStatus()
 }
 
 void loop() {
+  wifiInit();
+  makeRequest();
   Serial.print(getStatus());
+  
   Serial.print("Delaying 5...");
   delay(1000);
   Serial.print("4..");
@@ -209,7 +177,5 @@ void loop() {
   Serial.print("1..");
   delay(1000);
   Serial.println("0"); 
-  wifiInit();
-  makeRequest();
- 
+  
 }
