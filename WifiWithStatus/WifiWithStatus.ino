@@ -119,16 +119,8 @@ void setup() {
 }
 void makeRequest()
 {
-  
   ConnectionInfo connection_info;
   int i;
-  
-  // Initialize Serial port
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println("---------------------------");
-  Serial.println("SparkFun CC3000 - WebClient");
-  Serial.println("---------------------------");
   
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
