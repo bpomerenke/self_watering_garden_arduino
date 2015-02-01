@@ -117,18 +117,20 @@ void setup() {
   client.println();
   Serial.println();
 }
-void makeRequest()
-{
-  ConnectionInfo connection_info;
-  int i;
-  
+void wifiInit()
+{ 
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
     Serial.println("CC3000 initialization complete");
   } else {
     Serial.println("Something went wrong during CC3000 init!");
   }
-  
+}
+void makeRequest()
+{
+  ConnectionInfo connection_info;
+  int i;
+
   // Connect using DHCP
   Serial.print("Connecting to SSID: ");
   Serial.println(ap_ssid);
@@ -163,7 +165,7 @@ void makeRequest()
   client.println(server);
   client.println("Connection: close");
   client.println();
-  Serial.println();
+  Serial.println(); 
 }
 int readData()
 {
@@ -210,6 +212,7 @@ void loop() {
      Serial.println("1..");
      delay(1000);
      Serial.println("0"); 
+     wifiInit();
      makeRequest();
   }
 }
