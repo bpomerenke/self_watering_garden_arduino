@@ -171,7 +171,18 @@ String postSensorData()
 }
 
 void loop() {
-  Serial.print(getStatus());
+  String statusVal = getStatus();
+  
+  Serial.println(statusVal);
+  if(statusVal.endsWith("water\n"))
+  {
+    Serial.println("");
+    Serial.println("watering the garden now....");
+  }
+  else
+  {
+     Serial.print("-"); 
+  }
   Serial.print(postSensorData());
   
   Serial.print("Delaying 5...");
@@ -187,3 +198,4 @@ void loop() {
   Serial.println("0"); 
   
 }
+
