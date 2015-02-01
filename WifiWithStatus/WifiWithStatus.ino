@@ -118,13 +118,11 @@ void makeRequest()
   Serial.println(); 
 }
 
-String getStatus()
+String getResponse()
 {
-  boolean keepReading = true;
   String result = "";
+  boolean keepReading = true;
   
-  wifiInit();
-  makeRequest();
   while(keepReading)
   {
     // If there are incoming bytes, print them
@@ -155,8 +153,15 @@ String getStatus()
     {
        keepReading = true; 
     }
-  }
+  } 
   return result;
+}
+
+String getStatus()
+{  
+  wifiInit();
+  makeRequest();
+  return getResponse();
 }
 
 void loop() {
