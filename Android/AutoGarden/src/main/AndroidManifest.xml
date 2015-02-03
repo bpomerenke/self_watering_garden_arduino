@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DeviceDetailActivity"
+            android:name=".SensorDetailActivity"
             android:label="@string/device_Detail" />
         <activity
-            android:name=".DeviceListActivity"
+            android:name=".SensorListActivity"
             android:label="@string/auto_garden"></activity>
     </application>
 

@@ -11,5 +11,6 @@
     <string name="login">Login</string>
     <string name="create_new_account">Please enter the following information to create a new account.</string>
     <string name="create">Create</string>
+    <string name="add_sensor">Add Sensor</string>
 
 </resources>

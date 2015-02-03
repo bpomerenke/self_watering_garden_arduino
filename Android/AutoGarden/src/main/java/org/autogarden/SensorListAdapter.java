@@ -6,14 +6,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.autogarden.dto.Sensor;
+
 import javax.inject.Inject;
 
-public class DeviceListAdapter extends ArrayAdapter<Device> {
+public class SensorListAdapter extends ArrayAdapter<Sensor> {
 
     private DateFormatter dateFormatter;
 
     @Inject
-    public DeviceListAdapter(Context context, DateFormatter dateFormatter) {
+    public SensorListAdapter(Context context, DateFormatter dateFormatter) {
         super(context, 0);
         this.dateFormatter = dateFormatter;
     }
@@ -24,12 +26,12 @@ public class DeviceListAdapter extends ArrayAdapter<Device> {
             convertView = View.inflate(getContext(), R.layout.device_row, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        Device item = getItem(position);
+        Sensor item = getItem(position);
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
         holder.nameView.setText(item.getName());
-        holder.lastWateringView.setText(dateFormatter.formatDate(item.getLastWatering()));
-        holder.lastDataUpdateView.setText(dateFormatter.formatDate(item.getLastDataUpdate()));
+//        holder.lastWateringView.setText(dateFormatter.formatDate(item.getLastWatering()));
+//        holder.lastDataUpdateView.setText(dateFormatter.formatDate(item.getLastDataUpdate()));
 
         return convertView;
     }

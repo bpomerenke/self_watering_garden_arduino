@@ -3,27 +3,28 @@ package org.autogarden;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.autogarden.dto.Sensor;
+import org.autogarden.dto.SensorReading;
+
 import java.util.Date;
 
 public class Device implements Parcelable {
-    private String name;
+    private Sensor sensor;
+    private SensorReading latestReading;
     private String location;
     private Date lastWatering;
     private Date lastDataUpdate;
-    private double lastTemperature;
-    private int lastMoisture;
 
-    public Device(String name, String location, Date lastWatering, Date lastDataUpdate, double lastTemperature, int lastMoisture) {
-        this.name = name;
+    public Device(Sensor sensor, SensorReading latestReading, String location, Date lastWatering, Date lastDataUpdate) {
+        this.sensor = sensor;
+        this.latestReading = latestReading;
         this.location = location;
         this.lastWatering = lastWatering;
         this.lastDataUpdate = lastDataUpdate;
-        this.lastTemperature = lastTemperature;
-        this.lastMoisture = lastMoisture;
     }
 
     public String getName() {
-        return name;
+        return sensor.getName();
     }
 
     public String getLocation() {
@@ -39,11 +40,11 @@ public class Device implements Parcelable {
     }
 
     public double getLastTemperature() {
-        return lastTemperature;
+        return latestReading.getTemp().doubleValue();
     }
 
     public int getLastMoisture() {
-        return lastMoisture;
+        return latestReading.getMoisture().intValue();
     }
 
     @Override
@@ -53,23 +54,21 @@ public class Device implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
+        dest.writeParcelable(this.sensor, 0);
+        dest.writeParcelable(this.latestReading, 0);
         dest.writeString(this.location);
         dest.writeLong(lastWatering != null ? lastWatering.getTime() : -1);
         dest.writeLong(lastDataUpdate != null ? lastDataUpdate.getTime() : -1);
-        dest.writeDouble(this.lastTemperature);
-        dest.writeInt(this.lastMoisture);
     }
 
     private Device(Parcel in) {
-        this.name = in.readString();
+        this.sensor = in.readParcelable(Sensor.class.getClassLoader());
+        this.latestReading = in.readParcelable(SensorReading.class.getClassLoader());
         this.location = in.readString();
         long tmpLastWatering = in.readLong();
         this.lastWatering = tmpLastWatering == -1 ? null : new Date(tmpLastWatering);
         long tmpLastDataUpdate = in.readLong();
         this.lastDataUpdate = tmpLastDataUpdate == -1 ? null : new Date(tmpLastDataUpdate);
-        this.lastTemperature = in.readDouble();
-        this.lastMoisture = in.readInt();
     }
 
     public static final Creator<Device> CREATOR = new Creator<Device>() {

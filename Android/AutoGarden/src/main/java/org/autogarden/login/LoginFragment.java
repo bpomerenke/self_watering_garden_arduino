@@ -11,21 +11,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.autogarden.AutoGardenApplication;
 import org.autogarden.R;
 import org.autogarden.dto.AuthenticationResponse;
 import org.autogarden.dto.User;
+import org.autogarden.model.UserModel;
 import org.autogarden.service.PostGsonRequest;
-import org.autogarden.service.RequestQueueSingleton;
 import org.autogarden.service.Service;
 import org.autogarden.service.TokenManager;
+
+import javax.inject.Inject;
 
 import static com.android.volley.Response.ErrorListener;
 
 public class LoginFragment extends Fragment {
+    @Inject
+    protected UserModel userModel;
+    @Inject
+    protected RequestQueue requestQueue;
     private LoginFragmentListener loginFragmentListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((AutoGardenApplication) getActivity().getApplication()).inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +68,13 @@ public class LoginFragment extends Fragment {
     }
 
     private void login() {
-        String userName = ((TextView) getView().findViewById(R.id.login_username)).getText().toString();
+        final String userName = ((TextView) getView().findViewById(R.id.login_username)).getText().toString();
         User user = new User(userName, null);
         PostGsonRequest<AuthenticationResponse> request = new PostGsonRequest<AuthenticationResponse>(Service.URL + "user/authenticate", user, AuthenticationResponse.class,
                 new Response.Listener<AuthenticationResponse>() {
                     @Override
                     public void onResponse(AuthenticationResponse response) {
+                        userModel.setUserName(userName);
                         TokenManager.getInstance().setToken(response.getToken());
                         loginFragmentListener.loginSuccessful();
                     }
@@ -70,8 +85,7 @@ public class LoginFragment extends Fragment {
                         Log.e(LoginFragment.class.getSimpleName(), "VolleyError " + error, error.getCause());
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                     }
-                }) {
-        };
-        RequestQueueSingleton.getInstance(getActivity()).add(request);
+                });
+        requestQueue.add(request);
     }
 }

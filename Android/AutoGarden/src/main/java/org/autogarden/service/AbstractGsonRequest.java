@@ -17,7 +17,7 @@ public abstract class AbstractGsonRequest<T> extends JsonRequest<T> {
     protected final Gson gson = new Gson();
     private Class<T> responseClass;
 
-    public AbstractGsonRequest(int method, String url, Class<T> responseClass, Response.Listener<T> successListener, Response.ErrorListener listener) {
+    public AbstractGsonRequest(int method, String url, Class responseClass, Response.Listener<T> successListener, Response.ErrorListener listener) {
         super(method, url, null, successListener, listener);
         this.responseClass = responseClass;
     }
