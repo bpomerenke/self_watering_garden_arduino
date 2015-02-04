@@ -28,11 +28,16 @@ Hardware Connections:
 #include <SPI.h>
 #include <SFE_CC3000.h>
 #include <SFE_CC3000_Client.h>
+#include <OneWire.h>
 
 // Pins
 #define CC3000_INT      2   // Needs to be an interrupt pin (D2/D3)
 #define CC3000_EN       7   // Can be any digital pin
 #define CC3000_CS       10  // Preferred is pin 10 on Uno
+
+int DS18S20_Pin = 4; //DS18S20 Signal pins
+//Temperature chip i/o
+OneWire ds(DS18S20_Pin);
 
 // Connection info data lengths
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
@@ -201,13 +206,65 @@ void timedDelay(int sec, boolean showCount)
    }
    Serial.println("");
 }
-void loop() {
-  String statusVal = getStatus();
-  float moisture = random(400);
-  float temp = random(100);
+
+float getTemp(){
+  //returns the temperature from one DS18S20 in DEG Celsius
+
+  byte data[12];
+  byte addr[8];
+
+  if ( !ds.search(addr)) {
+      //no more sensors on chain, reset search
+      ds.reset_search();
+      return -1000;
+  }
+
+  if ( OneWire::crc8( addr, 7) != addr[7]) {
+      Serial.println("CRC is not valid!");
+      return -1000;
+  }
+
+  if ( addr[0] != 0x10 && addr[0] != 0x28) {
+      Serial.print("Device is not recognized");
+      return -1000;
+  }
+
+  ds.reset();
+  ds.select(addr);
+  ds.write(0x44,1); // start conversion, with parasite power on at the end
+
+  byte present = ds.reset();
+  ds.select(addr);    
+  ds.write(0xBE); // Read Scratchpad
+
   
+  for (int i = 0; i < 9; i++) { // we need 9 bytes
+    data[i] = ds.read();
+  }
+  
+  ds.reset_search();
+  
+  byte MSB = data[1];
+  byte LSB = data[0];
+
+  float tempRead = ((MSB << 8) | LSB); //using two's compliment
+  float TemperatureSum = tempRead / 16;
+  
+  return TemperatureSum;
+  
+}
+
+void loop() {
+  float moisture = random(400);
+  float temperature = getTemp();
+  float farenheight = (temperature * 9.0 / 5.0) + 32;
+  
+  Serial.print("temperature:");
+  Serial.println(farenheight);
+  
+  String statusVal = getStatus();
   Serial.println(statusVal);
-  Serial.println(postSensorData(temp,moisture));
+  Serial.println(postSensorData(farenheight,moisture));
   if(statusVal.endsWith("water\n"))
   {
     Serial.println("");
