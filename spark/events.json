@@ -1,0 +1,7 @@
+{
+  "eventName": "temp",
+  "url": "https://posttestserver.com/post.php",
+  "coreID": "54ff70066672524829271267",
+  "requestType": "POST",
+  "json": { "foo": "bar" }
+}

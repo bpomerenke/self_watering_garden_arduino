@@ -25,9 +25,9 @@ void loop() {
   float fahrenheit = ds18b20.convertToFahrenheit(celsius);
 
   sprintf(szInfo, "Temperature: %2.2f Celsius, %2.2f Fahrenheit (Chip Name: %s)", celsius, fahrenheit, ds18b20.getChipName());
-  Spark.publish("tmpinfo", szInfo);
 
+  Spark.publish("temp", (String)temp, 60, PRIVATE);
   temp = (double)(fahrenheit);
 
-  delay(1000);
+  delay(500);
 }
