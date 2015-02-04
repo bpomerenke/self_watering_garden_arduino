@@ -115,7 +115,7 @@ void makeRequest(String url)
   client.println(server);
   client.println("Connection: close");
   client.println();
-  Serial.println(); 
+  Serial.println("Hitting url: " + url); 
 }
 
 String getResponse()
@@ -160,7 +160,7 @@ String getResponse()
 String getStatus()
 {  
   wifiInit();
-  makeRequest("/status.php");
+  makeRequest("/garden/getCommand.php");
   return getResponse();
 }
 String postSensorData(float temp, float moisture)
@@ -172,7 +172,7 @@ String postSensorData(float temp, float moisture)
   dtostrf(temp, 1,2,tempStr);
   dtostrf(moisture,1,2,moistureStr);
   
-  String url = "/garden.php?temp=";
+  String url = "/garden/updateStats.php?temp=";
   url += tempStr;
   url += "&moisture=";
   url += moistureStr;
