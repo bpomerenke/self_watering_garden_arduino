@@ -163,10 +163,20 @@ String getStatus()
   makeRequest("/status.php");
   return getResponse();
 }
-String postSensorData()
+String postSensorData(float temp, float moisture)
 {  
   wifiInit();
-  makeRequest("/garden.php?temp=4&moisture=20");
+  char tempStr[10];
+  char moistureStr[10];
+  
+  dtostrf(temp, 1,2,tempStr);
+  dtostrf(moisture,1,2,moistureStr);
+  
+  String url = "/garden.php?temp=";
+  url += tempStr;
+  url += "&moisture=";
+  url += moistureStr;
+  makeRequest(url);
   return getResponse();
 }
 
@@ -193,9 +203,11 @@ void timedDelay(int sec, boolean showCount)
 }
 void loop() {
   String statusVal = getStatus();
+  float moisture = random(400);
+  float temp = random(100);
   
   Serial.println(statusVal);
-  Serial.println(postSensorData());
+  Serial.println(postSensorData(temp,moisture));
   if(statusVal.endsWith("water\n"))
   {
     Serial.println("");
