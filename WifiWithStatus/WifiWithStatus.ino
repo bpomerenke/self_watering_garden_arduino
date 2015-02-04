@@ -34,10 +34,16 @@ Hardware Connections:
 #define CC3000_INT      2   // Needs to be an interrupt pin (D2/D3)
 #define CC3000_EN       7   // Can be any digital pin
 #define CC3000_CS       10  // Preferred is pin 10 on Uno
+#define voltageFlipPin1 6
+#define voltageFlipPin2 8
+#define sensorPin 0
 
 int DS18S20_Pin = 4; //DS18S20 Signal pins
 //Temperature chip i/o
 OneWire ds(DS18S20_Pin);
+
+int flipTimer = 1000;
+
 
 // Connection info data lengths
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
@@ -64,6 +70,10 @@ void setup() {
   Serial.println("---------------------------");
   Serial.println("Self Watering Garden");
   Serial.println("---------------------------");
+  
+  pinMode(voltageFlipPin1, OUTPUT);
+  pinMode(voltageFlipPin2, OUTPUT);
+  pinMode(sensorPin, INPUT);
   
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
@@ -255,13 +265,38 @@ float getTemp(){
   
 }
 
+void setSensorPolarity(boolean flip){
+  if(flip){
+    digitalWrite(voltageFlipPin1, HIGH);
+    digitalWrite(voltageFlipPin2, LOW);
+  }else{
+    digitalWrite(voltageFlipPin1, LOW);
+    digitalWrite(voltageFlipPin2, HIGH);
+  }
+}
+
+float getMoisture(){
+  setSensorPolarity(true);
+  delay(flipTimer);
+  int val1 = analogRead(sensorPin);
+  delay(flipTimer);  
+  setSensorPolarity(false);
+  delay(flipTimer);
+  // invert the reading
+  int val2 = 1023 - analogRead(sensorPin);
+  //
+  return (val1 + val2) / 2.0; 
+}
+
 void loop() {
-  float moisture = random(400);
+  float moisture = getMoisture();
   float temperature = getTemp();
   float farenheight = (temperature * 9.0 / 5.0) + 32;
   
   Serial.print("temperature:");
   Serial.println(farenheight);
+  Serial.print("moisture:");
+  Serial.println(moisture);
   
   String statusVal = getStatus();
   Serial.println(statusVal);
