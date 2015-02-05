@@ -5,13 +5,19 @@ DS18B20 ds18b20 = DS18B20(D2);
 char szInfo[64];
 double temp = 0.0;
 
+unsigned long lastloop = 0;
+
 void setup() {
   Serial1.begin(9600);
   Spark.variable("tempstring", szInfo, STRING);
   Spark.variable("temp", &temp, DOUBLE);
+
+  lastloop = millis();
 }
 
 void loop() {
+  if ((millis() - lastloop) < 15000) return;
+
   if(!ds18b20.search()){
     Serial1.println("No more addresses.");
     Serial1.println();
@@ -29,5 +35,6 @@ void loop() {
   Spark.publish("temp", (String)temp, 60, PRIVATE);
   temp = (double)(fahrenheit);
 
-  delay(500);
+  lastloop = millis();
+  delay(1000);  // delay just in case it gets run more often
 }

@@ -1,6 +1,6 @@
 {
   "eventName": "temp",
-  "url": "https://posttestserver.com/post.php",
+  "url": "http://bpomerenke.com/garden/helper.php",
   "coreID": "54ff70066672524829271267",
   "requestType": "POST",
   "json": { "foo": "bar" }
