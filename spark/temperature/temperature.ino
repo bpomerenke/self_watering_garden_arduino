@@ -32,8 +32,8 @@ void loop() {
 
   sprintf(szInfo, "Temperature: %2.2f Celsius, %2.2f Fahrenheit (Chip Name: %s)", celsius, fahrenheit, ds18b20.getChipName());
 
-  Spark.publish("temp", (String)temp, 60, PRIVATE);
   temp = (double)(fahrenheit);
+  Spark.publish("temp", (String)temp, 60, PRIVATE);
 
   lastloop = millis();
   delay(1000);  // delay just in case it gets run more often
