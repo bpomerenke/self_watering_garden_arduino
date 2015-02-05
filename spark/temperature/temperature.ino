@@ -1,14 +1,22 @@
 #include "DS18B20.h"
 #include "OneWire.h"
+#define voltageFlipPin1 6
+#define voltageFlipPin2 7
+#define sensorPin 0
 
 DS18B20 ds18b20 = DS18B20(D2);
 char szInfo[64];
 double temp = 0.0;
 
 unsigned long lastloop = 0;
+int flipTimer = 500;
 
 void setup() {
   Serial1.begin(9600);
+  pinMode(voltageFlipPin1, OUTPUT);
+  pinMode(voltageFlipPin2, OUTPUT);
+  pinMode(sensorPin, INPUT);
+
   Spark.variable("tempstring", szInfo, STRING);
   Spark.variable("temp", &temp, DOUBLE);
 
@@ -35,6 +43,32 @@ void loop() {
   temp = (double)(fahrenheit);
   Spark.publish("temp", (String)temp, 60, PRIVATE);
 
+  int moisture = getMoisture();
+  Spark.publish("moisture", (String)moisture, 60, PRIVATE);
+
   lastloop = millis();
-  delay(1000);  // delay just in case it gets run more often
+}
+
+int getMoisture() {
+  setSensorPolarity(true);
+  delay(flipTimer);
+  int val1 = analogRead(sensorPin);
+  delay(flipTimer);
+  setSensorPolarity(false);
+  delay(flipTimer);
+  // invert the reading
+  int val2 = 4095 - analogRead(sensorPin);
+  int avg = (val1 + val2) / 2;
+
+  return avg;
+}
+
+void setSensorPolarity(boolean flip){
+  if(flip){
+    digitalWrite(voltageFlipPin1, HIGH);
+    digitalWrite(voltageFlipPin2, LOW);
+  }else{
+    digitalWrite(voltageFlipPin1, LOW);
+    digitalWrite(voltageFlipPin2, HIGH);
+  }
 }
