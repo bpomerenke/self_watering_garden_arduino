@@ -1,12 +1,13 @@
 #include "DS18B20.h"
 #include "OneWire.h"
-#define voltageFlipPin1 6
-#define voltageFlipPin2 7
-#define sensorPin 0
+#define voltageFlipPin1 D6
+#define voltageFlipPin2 D7
+#define sensorPin A0
 
 DS18B20 ds18b20 = DS18B20(D2);
 char szInfo[64];
 double temp = 0.0;
+int moisture = 0;
 
 unsigned long lastloop = 0;
 int flipTimer = 500;
@@ -19,6 +20,7 @@ void setup() {
 
   Spark.variable("tempstring", szInfo, STRING);
   Spark.variable("temp", &temp, DOUBLE);
+  Spark.variable("moisture", &moisture, INT);
 
   lastloop = millis();
 }
@@ -43,7 +45,7 @@ void loop() {
   temp = (double)(fahrenheit);
   Spark.publish("temp", (String)temp, 60, PRIVATE);
 
-  int moisture = getMoisture();
+  moisture = getMoisture();
   Spark.publish("moisture", (String)moisture, 60, PRIVATE);
 
   lastloop = millis();
