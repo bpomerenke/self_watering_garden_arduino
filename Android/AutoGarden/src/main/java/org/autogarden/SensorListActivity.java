@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import org.autogarden.addsensor.AddSensorActivity;
 import org.autogarden.dto.Sensor;
-import org.autogarden.model.DeviceModel;
 import org.autogarden.model.ModelCallback;
+import org.autogarden.model.SensorModel;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ public class SensorListActivity extends BaseActivity {
     @Inject
     SensorListAdapter sensorListAdapter;
     @Inject
-    DeviceModel deviceModel;
+    SensorModel sensorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class SensorListActivity extends BaseActivity {
         setContentView(R.layout.device_list_activity);
         ListView listView = (ListView) findViewById(R.id.device_list);
         listView.setAdapter(sensorListAdapter);
-        deviceModel.fetchDevices(new ModelCallback<Sensor[]>() {
+        sensorModel.fetchSensors(new ModelCallback<Sensor[]>() {
             @Override
             public void success(Sensor[] data) {
                 sensorListAdapter.clear();

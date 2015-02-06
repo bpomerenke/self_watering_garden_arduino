@@ -5,7 +5,7 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 
 import org.autogarden.login.LoginFragment;
-import org.autogarden.model.DeviceModel;
+import org.autogarden.model.SensorModel;
 import org.autogarden.model.UserModel;
 import org.autogarden.service.RequestQueueSingleton;
 
@@ -18,7 +18,7 @@ import dagger.Provides;
         injects = {
                 SensorListActivity.class,
                 SensorDetailActivity.class,
-                DeviceModel.class,
+                SensorModel.class,
                 LoginFragment.class,
         },
         addsTo = BaseModule.class,
@@ -43,8 +43,8 @@ public class AutoGardenModule {
 
     @Provides
     @Singleton
-    public DeviceModel deviceModel(UserModel userModel, RequestQueue requestQueue) {
-        return new DeviceModel(userModel, requestQueue);
+    public SensorModel deviceModel(UserModel userModel, RequestQueue requestQueue) {
+        return new SensorModel(userModel, requestQueue);
     }
 
     @Provides

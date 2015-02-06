@@ -56,4 +56,21 @@ public class Sensor implements Parcelable {
             return new Sensor[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sensor sensor = (Sensor) o;
+
+        if (_id != null ? !_id.equals(sensor._id) : sensor._id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return _id != null ? _id.hashCode() : 0;
+    }
 }

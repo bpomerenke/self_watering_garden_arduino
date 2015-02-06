@@ -6,18 +6,19 @@ import android.widget.Toast;
 
 import org.autogarden.dto.Sensor;
 import org.autogarden.dto.SensorReading;
-import org.autogarden.model.DeviceModel;
 import org.autogarden.model.ModelCallback;
+import org.autogarden.model.SensorListener;
+import org.autogarden.model.SensorModel;
 
 import javax.inject.Inject;
 
-public class SensorDetailActivity extends BaseActivity {
+public class SensorDetailActivity extends BaseActivity implements SensorListener {
     public static final String SENSOR_KEY = "SENSOR_KEY";
 
     @Inject
     DateFormatter dateFormatter;
     @Inject
-    DeviceModel deviceModel;
+    SensorModel sensorModel;
     private Sensor sensor;
     private TextView locationView;
     private TextView lastWateringView;
@@ -39,7 +40,7 @@ public class SensorDetailActivity extends BaseActivity {
         temperatureView = (TextView) findViewById(R.id.device_detail_temperature);
         moistureView = (TextView) findViewById(R.id.device_detail_moisture);
 
-        deviceModel.fetchLatestSensorReading(sensor, new ModelCallback<SensorReading>() {
+        sensorModel.fetchLatestSensorReading(sensor, new ModelCallback<SensorReading>() {
 
             @Override
             public void success(SensorReading data) {
@@ -52,8 +53,26 @@ public class SensorDetailActivity extends BaseActivity {
 
             @Override
             public void fail() {
-                Toast.makeText(SensorDetailActivity.this, "Unable to retrieve Sensor Data", Toast.LENGTH_LONG).show();
+                Toast.makeText(SensorDetailActivity.this, "Unable to retrieve Current Sensor Data", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorModel.addSensorListener(sensor, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorModel.removeSensorListener(sensor, this);
+    }
+
+    @Override
+    public void sensorUpdated(SensorReading sensorReading) {
+        temperatureView.setText(String.valueOf(sensorReading.getTemp()));
+        moistureView.setText(String.valueOf(sensorReading.getMoisture()));
     }
 }

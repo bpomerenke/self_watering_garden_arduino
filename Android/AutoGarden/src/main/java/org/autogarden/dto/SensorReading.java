@@ -71,4 +71,15 @@ public class SensorReading implements Parcelable {
             return new SensorReading[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "SensorReading{" +
+                "_id='" + _id + '\'' +
+                ", sensorId='" + sensorId + '\'' +
+                ", takenAt='" + takenAt + '\'' +
+                ", temp=" + temp +
+                ", moisture=" + moisture +
+                '}';
+    }
 }
