@@ -3,6 +3,7 @@
 #define voltageFlipPin1 D6
 #define voltageFlipPin2 D7
 #define sensorPin A0
+#define pumpPin D0
 
 DS18B20 ds18b20 = DS18B20(D2);
 char szInfo[64];
@@ -11,21 +12,28 @@ int moisture = 0;
 
 unsigned long lastloop = 0;
 int flipTimer = 500;
+unsigned long pumpDuration = 30000;
+unsigned long waterTurnedOn = 0;
 
 void setup() {
   Serial1.begin(9600);
   pinMode(voltageFlipPin1, OUTPUT);
   pinMode(voltageFlipPin2, OUTPUT);
   pinMode(sensorPin, INPUT);
+  pinMode(pumpPin, OUTPUT);
 
   Spark.variable("tempstring", szInfo, STRING);
   Spark.variable("temp", &temp, DOUBLE);
   Spark.variable("moisture", &moisture, INT);
 
+  Spark.function("water", water);
+
   lastloop = millis();
 }
 
 void loop() {
+  if (shouldTurnPumpOff()) turnPumpOff();
+
   if ((millis() - lastloop) < 15000) return;
 
   if(!ds18b20.search()){
@@ -49,6 +57,24 @@ void loop() {
   Spark.publish("moisture", (String)moisture, 60, PRIVATE);
 
   lastloop = millis();
+}
+
+int water(String)
+{
+  digitalWrite(pumpPin, HIGH);
+  waterTurnedOn = millis();
+
+  return 1;
+}
+
+void turnPumpOff() {
+  digitalWrite(pumpPin, LOW);
+  waterTurnedOn = 0;
+}
+
+bool shouldTurnPumpOff() {
+  if (waterTurnedOn == 0) return false;
+  return (millis() - waterTurnedOn > pumpDuration);
 }
 
 int getMoisture() {
