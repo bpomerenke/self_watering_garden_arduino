@@ -20,7 +20,7 @@ app.get('/api/v1/arduino', function(req, res, next) {
 	var temp = req.query.temp;
 	var moisture = req.query.moisture;
 	console.log('arduino ' + temp + ' ' + moisture);
-  sensorReadingCollection = db.collection('sensor_arduino_sensorReading')
+  sensorReadingCollection = db.collection('sensor_54d633dea4e36d4a0d7c97f9_sensorReading')
   sensorReadingCollection.insert(
 		{ temp: temp, moisture: moisture }
 	, {}, function(e, results){

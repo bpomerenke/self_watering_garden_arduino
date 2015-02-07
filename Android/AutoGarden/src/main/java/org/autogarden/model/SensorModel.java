@@ -149,12 +149,12 @@ public class SensorModel {
     private class PollRunnable implements Runnable {
         @Override
         public void run() {
-            Log.e(PollRunnable.class.getSimpleName(), "Start PollRunnable");
+//            Log.e(PollRunnable.class.getSimpleName(), "Start PollRunnable");
             List<Sensor> sensorsToPoll;
             synchronized (listeners) {
                 sensorsToPoll = new ArrayList<>(listeners.keySet());
             }
-            Log.e(PollRunnable.class.getSimpleName(), "Sensors to poll " + sensorsToPoll.size());
+//            Log.e(PollRunnable.class.getSimpleName(), "Sensors to poll " + sensorsToPoll.size());
             for (final Sensor sensor : sensorsToPoll) {
                 GetGsonRequest<SensorReading[]> request = new GetGsonRequest<>(Service.URL + "sensor/" + sensor.get_id() + "/sensorReading", SensorReading[].class,
                         new Response.Listener<SensorReading[]>() {
@@ -162,7 +162,7 @@ public class SensorModel {
                             public void onResponse(SensorReading[] response) {
                                 if (response.length > 0) {
                                     SensorReading sensorReading = response[0];
-                                    Log.e(PollRunnable.class.getSimpleName(), "Sensor response " + sensor.getDisplayName() + " " + sensorReading);
+//                                    Log.e(PollRunnable.class.getSimpleName(), "Sensor response " + sensor.getDisplayName() + " " + sensorReading);
                                     fireSensorUpdated(sensor, sensorReading);
                                 }
                             }
