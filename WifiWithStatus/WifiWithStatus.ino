@@ -49,8 +49,8 @@ int flipTimer = 1000;
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
 
 // Constants
-char ap_ssid[] = "pomtower";                  // SSID of network
-char ap_password[] = "hello123";          // Password of network
+char ap_ssid[] = "GALAXY_S4_3387";        // SSID of network
+char ap_password[] = "qovq0568";          // Password of network
 unsigned int ap_security = WLAN_SEC_WPA2; // Security of network
 unsigned int timeout = 30000;             // Milliseconds
 char server[] = "www.bpomerenke.com";        // Remote host site
