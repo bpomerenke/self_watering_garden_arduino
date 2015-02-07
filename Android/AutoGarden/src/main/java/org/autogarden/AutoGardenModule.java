@@ -7,6 +7,10 @@ import com.android.volley.RequestQueue;
 import org.autogarden.login.LoginFragment;
 import org.autogarden.model.SensorModel;
 import org.autogarden.model.UserModel;
+import org.autogarden.model.WorkingSensorModel;
+import org.autogarden.sensor.EditSensorActivity;
+import org.autogarden.sensor.SensorDetailActivity;
+import org.autogarden.sensor.SensorListActivity;
 import org.autogarden.service.RequestQueueSingleton;
 
 import javax.inject.Singleton;
@@ -20,6 +24,7 @@ import dagger.Provides;
                 SensorDetailActivity.class,
                 SensorModel.class,
                 LoginFragment.class,
+                EditSensorActivity.class,
         },
         addsTo = BaseModule.class,
         complete = false
@@ -58,4 +63,11 @@ public class AutoGardenModule {
     public RequestQueue requestQueue(Context context) {
         return RequestQueueSingleton.getInstance(context);
     }
+
+    @Provides
+    @Singleton
+    public WorkingSensorModel getWorkingSensorModel() {
+        return new WorkingSensorModel();
+    }
+
 }

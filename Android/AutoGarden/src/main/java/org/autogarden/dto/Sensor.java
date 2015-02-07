@@ -29,6 +29,10 @@ public class Sensor implements Parcelable {
         return wateringSchedule;
     }
 
+    public void setWateringSchedule(WateringSchedule wateringSchedule) {
+        this.wateringSchedule = wateringSchedule;
+    }
+
     @Override
     public int describeContents() {
         return 0;

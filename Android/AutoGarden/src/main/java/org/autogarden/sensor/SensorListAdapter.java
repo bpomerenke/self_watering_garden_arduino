@@ -1,4 +1,4 @@
-package org.autogarden;
+package org.autogarden.sensor;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.autogarden.DateFormatter;
+import org.autogarden.R;
 import org.autogarden.dto.Sensor;
 
 import javax.inject.Inject;

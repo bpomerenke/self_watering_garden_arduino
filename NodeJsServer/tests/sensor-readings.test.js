@@ -95,5 +95,36 @@ describe('Manage Sensor Readings', function(){
 		expect(res.body).to.be.empty()
         done()
       })
-  })    
+  })
+  
+  it('query with limit parameter', function(done){
+    superagent.post(urlPrefix + 'sensor/MySensorId/sensorReading')
+      .send(
+		{ temp: 98.6, moisture: 400, takenAt: new Date('2014-01-02T14:56:59.301Z') }
+      )
+    superagent.post(urlPrefix + 'sensor/MySensorId/sensorReading')
+      .send(
+		{ temp: 98.6, moisture: 400, takenAt: new Date('2014-01-02T14:56:59.301Z') }
+	  )
+		
+	superagent.get(urlPrefix + 'sensor/MySensorId/sensorReading?limit=1')
+      .end(function(e, res){
+        expect(e).to.eql(null)
+        expect(res.body.length).to.be.eql(1)     
+      })
+	  
+	superagent.get(urlPrefix + 'sensor/MySensorId/sensorReading?limit=2')
+      .end(function(e, res){
+        expect(e).to.eql(null)
+        expect(res.body.length).to.be.eql(2)     
+      })
+	  
+	superagent.get(urlPrefix + 'sensor/MySensorId/sensorReading')
+      .end(function(e, res){
+        expect(e).to.eql(null)
+        expect(res.body.length).to.be.eql(2)     
+		done()
+      })
+		
+  })
 })

@@ -8,6 +8,9 @@ public class WateringSchedule implements Parcelable {
     private Integer startWhenBelowMoisture;
     private Integer stopWhenAboveMoisture;
 
+    public WateringSchedule() {
+    }
+
     public WateringSchedule(String _id, Integer startWhenBelowMoisture, Integer stopWhenAboveMoisture) {
         this._id = _id;
         this.startWhenBelowMoisture = startWhenBelowMoisture;
@@ -24,6 +27,14 @@ public class WateringSchedule implements Parcelable {
 
     public Integer getStopWhenAboveMoisture() {
         return stopWhenAboveMoisture;
+    }
+
+    public void setStartWhenBelowMoisture(Integer startWhenBelowMoisture) {
+        this.startWhenBelowMoisture = startWhenBelowMoisture;
+    }
+
+    public void setStopWhenAboveMoisture(Integer stopWhenAboveMoisture) {
+        this.stopWhenAboveMoisture = stopWhenAboveMoisture;
     }
 
     @Override

@@ -44,7 +44,7 @@ app.put('/api/v1/:collectionName/:id', function(req, res, next) {
   })
 })
 
-app.del('/api/v1/:collectionName/:id', function(req, res, next) {
+app.delete('/api/v1/:collectionName/:id', function(req, res, next) {
   req.collection.removeById(req.params.id, function(e, result){
     if (e) return next(e)
     res.send((result===1)?{msg:'success'}:{msg:'error'})
@@ -61,7 +61,8 @@ app.post('/api/v1/sensor/:sensorId/sensorReading', function(req, res, next) {
 
 app.get('/api/v1/sensor/:sensorId/sensorReading', function(req, res, next) {
   sensorReadingCollection = db.collection('sensor_' + req.params.sensorId + '_sensorReading')
-  sensorReadingCollection.find({} ,{limit:10, sort: [['_id',-1]]}).toArray(function(e, results){
+  var limit = req.query.limit
+  sensorReadingCollection.find({} ,{limit:limit, sort: [['_id',-1]]}).toArray(function(e, results){
     if (e) return next(e)
     res.send(results)
   })
@@ -83,7 +84,7 @@ app.put('/api/v1/sensor/:sensorId/sensorReading/:id', function(req, res, next) {
   })
 })
 
-app.del('/api/v1/sensor/:sensorId/sensorReading/:id', function(req, res, next) {
+app.delete('/api/v1/sensor/:sensorId/sensorReading/:id', function(req, res, next) {
   sensorReadingCollection = db.collection('sensor_' + req.params.sensorId + '_sensorReading')
   sensorReadingCollection.removeById(req.params.id, function(e, result){
     if (e) return next(e)

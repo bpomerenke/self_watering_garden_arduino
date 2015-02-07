@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.autogarden.login.LoginActivity">
     <item
-        android:id="@+id/action_add_sensor"
+        android:id="@+id/edit_add_sensor"
         android:orderInCategory="100"
-        android:title="@string/add_sensor"
+        android:title="@string/edit_sensor"
         app:showAsAction="always" />
 </menu>

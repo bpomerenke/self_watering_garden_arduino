@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 
 import org.autogarden.R;
-import org.autogarden.SensorListActivity;
+import org.autogarden.sensor.SensorListActivity;
 
 public class LoginActivity extends ActionBarActivity implements LoginFragmentListener, NewUserFragmentListener {
 
