@@ -308,7 +308,7 @@ void loop() {
     Serial.println("");
     Serial.println("watering the garden now....");
     digitalWrite(pumpPin,HIGH);
-    timedDelay(60. true);
+    timedDelay(60, true);
     digitalWrite(pumpPin, LOW);
   }
   else
