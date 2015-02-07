@@ -37,6 +37,7 @@ Hardware Connections:
 #define voltageFlipPin1 6
 #define voltageFlipPin2 8
 #define sensorPin 0
+#define pumpPin 3
 
 int DS18S20_Pin = 4; //DS18S20 Signal pins
 //Temperature chip i/o
@@ -74,6 +75,7 @@ void setup() {
   pinMode(voltageFlipPin1, OUTPUT);
   pinMode(voltageFlipPin2, OUTPUT);
   pinMode(sensorPin, INPUT);
+  pinMode(pumpPin, OUTPUT);
   
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
@@ -301,17 +303,21 @@ void loop() {
   String statusVal = getStatus();
   Serial.println(statusVal);
   Serial.println(postSensorData(farenheight,moisture));
-  if(statusVal.endsWith("water\n"))
+  if(statusVal.endsWith("water"))
   {
     Serial.println("");
     Serial.println("watering the garden now....");
+    digitalWrite(pumpPin,HIGH);
+    timedDelay(5, true);
+    digitalWrite(pumpPin, LOW);
   }
   else
   {
-     Serial.print("-"); 
+    digitalWrite(pumpPin,LOW);
+    Serial.print("-"); 
   }
   
-  timedDelay(15, true);
+  timedDelay(5, true);
   
 }
 
