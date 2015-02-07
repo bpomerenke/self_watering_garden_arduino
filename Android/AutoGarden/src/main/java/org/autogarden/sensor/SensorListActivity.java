@@ -32,6 +32,24 @@ public class SensorListActivity extends BaseActivity {
         setContentView(R.layout.device_list_activity);
         ListView listView = (ListView) findViewById(R.id.device_list);
         listView.setAdapter(sensorListAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Sensor selectedSensor = sensorListAdapter.getItem(position);
+                workingSensorModel.setSensor(selectedSensor);
+                startActivity(new Intent(SensorListActivity.this, SensorDetailActivity.class));
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reload();
+    }
+
+    private void reload() {
         sensorModel.fetchSensors(new ModelCallback<Sensor[]>() {
             @Override
             public void success(Sensor[] data) {
@@ -44,15 +62,6 @@ public class SensorListActivity extends BaseActivity {
             @Override
             public void fail() {
                 Toast.makeText(SensorListActivity.this, "Unable to retrieve devices", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Sensor selectedSensor = sensorListAdapter.getItem(position);
-                workingSensorModel.setSensor(selectedSensor);
-                startActivity(new Intent(SensorListActivity.this, SensorDetailActivity.class));
             }
         });
     }

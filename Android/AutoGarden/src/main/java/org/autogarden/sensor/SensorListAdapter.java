@@ -31,7 +31,7 @@ public class SensorListAdapter extends ArrayAdapter<Sensor> {
         Sensor item = getItem(position);
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        holder.nameView.setText(item.getName());
+        holder.nameView.setText(item.getDisplayName());
 //        holder.lastWateringView.setText(dateFormatter.formatDate(item.getLastWatering()));
 //        holder.lastDataUpdateView.setText(dateFormatter.formatDate(item.getLastDataUpdate()));
 

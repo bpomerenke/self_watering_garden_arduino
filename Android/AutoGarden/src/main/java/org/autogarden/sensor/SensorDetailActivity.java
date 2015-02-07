@@ -31,9 +31,12 @@ public class SensorDetailActivity extends BaseActivity implements SensorListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_detail_activity);
+    }
+
+    private void updateUi() {
         sensor = workingSensorModel.getSensor();
 
-        getSupportActionBar().setTitle(sensor.getName());
+        getSupportActionBar().setTitle(sensor.getDisplayName());
 
         temperatureView = (TextView) findViewById(R.id.device_detail_temperature);
         moistureView = (TextView) findViewById(R.id.device_detail_moisture);
@@ -58,6 +61,7 @@ public class SensorDetailActivity extends BaseActivity implements SensorListener
     @Override
     protected void onResume() {
         super.onResume();
+        updateUi();
         sensorModel.addSensorListener(sensor, this);
     }
 

@@ -25,27 +25,32 @@ public class EditSensorActivity extends BaseActivity {
     SensorModel sensorModel;
     private EditText startWhenBelow;
     private EditText stopWhenAbove;
-    private Sensor sensor;
+    private EditText name;
     private Button saveButton;
+    private Sensor sensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_sensor_activity);
 
+        name = (EditText) findViewById(R.id.edit_name);
         startWhenBelow = (EditText) findViewById(R.id.edit_start_when_below);
         stopWhenAbove = (EditText) findViewById(R.id.edit_stop_when_above);
         saveButton = (Button) findViewById(R.id.edit_save);
 
         sensor = workingSensorModel.getSensor();
-        getSupportActionBar().setTitle(sensor.getName());
+
+        getSupportActionBar().setTitle(sensor.getDisplayName());
+        setIfNotNull(name, sensor.getName());
         WateringSchedule wateringSchedule = sensor.getWateringSchedule();
         if (wateringSchedule != null) {
             setIfNotNull(startWhenBelow, wateringSchedule.getStartWhenBelowMoisture());
             setIfNotNull(stopWhenAbove, wateringSchedule.getStopWhenAboveMoisture());
         }
 
-        TextWatcherListener watcher = new TextWatcherListener();
+        FieldTextWatcher watcher = new FieldTextWatcher();
+        name.addTextChangedListener(watcher);
         startWhenBelow.addTextChangedListener(watcher);
         stopWhenAbove.addTextChangedListener(watcher);
 
@@ -62,6 +67,8 @@ public class EditSensorActivity extends BaseActivity {
                 Integer stop = Integer.valueOf(stopWhenAbove.getText().toString());
                 wateringSchedule.setStopWhenAboveMoisture(stop);
 
+                sensor.setName(name.getText().toString());
+
                 sensorModel.updateSensor(sensor, new ModelCallback<Sensor>() {
                     @Override
                     public void success(Sensor sensor) {
@@ -76,6 +83,8 @@ public class EditSensorActivity extends BaseActivity {
                 });
             }
         });
+
+        updateSaveButtonState();
     }
 
     private void setIfNotNull(EditText field, Integer value) {
@@ -84,17 +93,23 @@ public class EditSensorActivity extends BaseActivity {
         }
     }
 
+    private void setIfNotNull(EditText field, String value) {
+        if (value != null) {
+            field.setText(value);
+        }
+    }
+
     private void updateSaveButtonState() {
         try {
             Integer.valueOf(startWhenBelow.getText().toString());
             Integer.valueOf(stopWhenAbove.getText().toString());
-            saveButton.setEnabled(true);
+            saveButton.setEnabled(!"".equals(name.getText().toString()));
         } catch (NumberFormatException ex) {
             saveButton.setEnabled(false);
         }
     }
 
-    private class TextWatcherListener implements TextWatcher {
+    private class FieldTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

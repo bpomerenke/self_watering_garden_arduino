@@ -162,7 +162,7 @@ public class SensorModel {
                             public void onResponse(SensorReading[] response) {
                                 if (response.length > 0) {
                                     SensorReading sensorReading = response[0];
-                                    Log.e(PollRunnable.class.getSimpleName(), "Sensor response " + sensor.getName() + " " + sensorReading);
+                                    Log.e(PollRunnable.class.getSimpleName(), "Sensor response " + sensor.getDisplayName() + " " + sensorReading);
                                     fireSensorUpdated(sensor, sensorReading);
                                 }
                             }

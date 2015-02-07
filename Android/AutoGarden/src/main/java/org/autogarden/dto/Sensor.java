@@ -25,12 +25,20 @@ public class Sensor implements Parcelable {
         return name;
     }
 
+    public String getDisplayName() {
+        return name == null ? "UNKNONWN" : name;
+    }
+
     public WateringSchedule getWateringSchedule() {
         return wateringSchedule;
     }
 
     public void setWateringSchedule(WateringSchedule wateringSchedule) {
         this.wateringSchedule = wateringSchedule;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
