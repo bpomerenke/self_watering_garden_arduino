@@ -303,7 +303,7 @@ void loop() {
   String statusVal = getStatus();
   Serial.println(statusVal);
   Serial.println(postSensorData(farenheight,moisture));
-  if(statusVal.endsWith("water"))
+  if(statusVal.endsWith("water") || moisture < 100.0)
   {
     Serial.println("");
     Serial.println("watering the garden now....");
