@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.autogarden.BaseActivity;
-import org.autogarden.DateFormatter;
 import org.autogarden.R;
 import org.autogarden.dto.Sensor;
 import org.autogarden.dto.SensorReading;
@@ -21,15 +20,10 @@ import javax.inject.Inject;
 
 public class SensorDetailActivity extends BaseActivity implements SensorListener {
     @Inject
-    DateFormatter dateFormatter;
-    @Inject
     SensorModel sensorModel;
     @Inject
     WorkingSensorModel workingSensorModel;
     private Sensor sensor;
-    private TextView locationView;
-    private TextView lastWateringView;
-    private TextView lastDataUpdateView;
     private TextView temperatureView;
     private TextView moistureView;
 
@@ -41,9 +35,6 @@ public class SensorDetailActivity extends BaseActivity implements SensorListener
 
         getSupportActionBar().setTitle(sensor.getName());
 
-        locationView = (TextView) findViewById(R.id.device_detail_location);
-        lastWateringView = (TextView) findViewById(R.id.device_detail_last_watering);
-        lastDataUpdateView = (TextView) findViewById(R.id.device_detail_last_data_update);
         temperatureView = (TextView) findViewById(R.id.device_detail_temperature);
         moistureView = (TextView) findViewById(R.id.device_detail_moisture);
 
@@ -52,9 +43,6 @@ public class SensorDetailActivity extends BaseActivity implements SensorListener
             @Override
             public void success(SensorReading data) {
                 if (data != null) {
-                    //                locationView.setText(sensor.getLocation());
-                    //                lastWateringView.setText(dateFormatter.formatDate(sensor.getLastWatering()));
-                    //                lastDataUpdateView.setText(dateFormatter.formatDate(sensor.getLastDataUpdate()));
                     temperatureView.setText(String.valueOf(data.getTemp()));
                     moistureView.setText(String.valueOf(data.getMoisture()));
                 }

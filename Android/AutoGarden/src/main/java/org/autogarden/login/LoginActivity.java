@@ -30,13 +30,12 @@ public class LoginActivity extends ActionBarActivity implements LoginFragmentLis
     public void showNewUserFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction = fragmentTransaction.replace(R.id.container, new NewUserFragment());
+        fragmentTransaction = fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     @Override
     public void newUserCreated() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction = fragmentTransaction.replace(R.id.container, new LoginFragment());
-        fragmentTransaction.commit();
+        onBackPressed();
     }
 }

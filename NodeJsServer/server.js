@@ -13,7 +13,7 @@ app.param('collectionName', function(req, res, next, collectionName){
 })
 
 app.get('/', function(req, res, next) {
-  res.send('please select an endpoint, e.g., /api/v1/sensorReading')
+  res.send('please select an endpoint, e.g., /api/v1/sensor')
 })
 
 app.get('/api/v1/:collectionName', function(req, res, next) {
@@ -38,6 +38,7 @@ app.get('/api/v1/:collectionName/:id', function(req, res, next) {
 })
 
 app.put('/api/v1/:collectionName/:id', function(req, res, next) {
+  delete req.body._id
   req.collection.updateById(req.params.id, {$set:req.body}, {safe:true, multi:false}, function(e, result){
     if (e) return next(e)
     res.send((result===1)?{msg:'success'}:{msg:'error'})
@@ -77,6 +78,7 @@ app.get('/api/v1/sensor/:sensorId/sensorReading/:id', function(req, res, next) {
 })
 
 app.put('/api/v1/sensor/:sensorId/sensorReading/:id', function(req, res, next) {
+  delete req.body._id
   sensorReadingCollection = db.collection('sensor_' + req.params.sensorId + '_sensorReading')
   sensorReadingCollection.updateById(req.params.id, {$set:req.body}, {safe:true, multi:false}, function(e, result){
     if (e) return next(e)

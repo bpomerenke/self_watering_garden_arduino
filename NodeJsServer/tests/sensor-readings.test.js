@@ -49,7 +49,7 @@ describe('Manage Sensor Readings', function(){
   it('updates an object', function(done){
     superagent.put(urlPrefix + 'sensor/MySensorId/sensorReading/' + id)
       .send(
-		{ temp: 22, moisture: 100, takenAt: new Date('2014-01-01T14:56:59.301Z') }
+		{ _id: id, temp: 22, moisture: 100, takenAt: new Date('2014-01-01T14:56:59.301Z') }
       )
       .end(function(e, res){
         // console.log(res.body)

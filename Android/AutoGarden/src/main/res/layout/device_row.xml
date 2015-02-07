@@ -26,11 +26,13 @@
         <TableRow>
 
             <TextView
+                style="@style/field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Last Watering:" />
 
             <TextView
+                style="@style/field"
                 android:id="@+id/device_row_last_watering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,11 +42,13 @@
         <TableRow>
 
             <TextView
+                style="@style/field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Last Update:" />
 
             <TextView
+                style="@style/field"
                 android:id="@+id/device_row_last_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

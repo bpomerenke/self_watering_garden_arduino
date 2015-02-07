@@ -49,7 +49,7 @@ describe('Manage Sensors', function(){
   it('updates an object', function(done){
     superagent.put(urlPrefix + 'sensor/' + id)
       .send(
-		{ name: 'NewSensorName', wateringSchedule : { startWhenBelowMoisture : 100, stopWhenAboveMositure : 150 } }
+		{ _id : id, name: 'NewSensorName', wateringSchedule : { startWhenBelowMoisture : 100, stopWhenAboveMositure : 150 } }
       )
       .end(function(e, res){
         // console.log(res.body)

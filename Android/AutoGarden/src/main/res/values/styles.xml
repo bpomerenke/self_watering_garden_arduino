@@ -5,8 +5,18 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="row_header">
+    <style name="row_header" parent="field">
+        <item name="android:textColor">@android:color/tertiary_text_dark</item>
         <item name="android:textSize">24dp</item>
     </style>
+
+    <style name="field">
+        <item name="android:textColor">@android:color/tertiary_text_dark</item>
+    </style>
+
+    <style name="large_field" parent="row_header">
+
+    </style>
+
 
 </resources>
