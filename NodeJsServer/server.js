@@ -16,6 +16,19 @@ app.get('/', function(req, res, next) {
   res.send('please select an endpoint, e.g., /api/v1/sensor')
 })
 
+app.get('/api/v1/arduino', function(req, res, next) {
+	var temp = req.query.temp;
+	var moisture = req.query.moisture;
+	console.log('arduino ' + temp + ' ' + moisture);
+  sensorReadingCollection = db.collection('sensor_54d633dea4e36d4a0d7c97f9_sensorReading')
+  sensorReadingCollection.insert(
+		{ temp: temp, moisture: moisture }
+	, {}, function(e, results){
+    if (e) return next(e)
+    res.send(results)
+  })
+})
+
 app.get('/api/v1/:collectionName', function(req, res, next) {
   req.collection.find({} ,{limit:10, sort: [['_id',-1]]}).toArray(function(e, results){
     if (e) return next(e)
