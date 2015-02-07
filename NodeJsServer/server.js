@@ -16,7 +16,7 @@ app.get('/', function(req, res, next) {
   res.send('please select an endpoint, e.g., /api/v1/sensor')
 })
 
-app.get('/arduino', function(req, res, next) {
+app.get('/api/v1/arduino', function(req, res, next) {
 	var temp = req.query.temp;
 	var moisture = req.query.moisture;
 	console.log('arduino ' + temp + ' ' + moisture);
